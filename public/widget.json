@@ -1,0 +1,82 @@
+{
+  "name": "cn.widgetjs.widget.weather",
+  "version": "1.0.0",
+  "author": "Neo Fu",
+  "homepage": "",
+  "title": {
+    "zh-CN": "天气组件包"
+  },
+  "description": {
+    "zh-CN": "天气组件包"
+  },
+  "entry": "/",
+  "hash": true,
+  "url": "",
+  "widgets": [
+    {
+      "name": "cn.widgetjs.widget.weather.weather",
+      "title": {
+        "zh-CN": "天气组件"
+      },
+      "description": {
+        "zh-CN": ""
+      },
+      "keywords": [
+        "recommend"
+      ],
+      "security": false,
+      "permissions": [],
+      "lang": "zh-CN",
+      "width": 4,
+      "height": 4,
+      "maxWidth": 4,
+      "webviewTag": false,
+      "maxHeight": 2,
+      "minWidth": 2,
+      "minHeight": 2,
+      "movable": true,
+      "singleton": false,
+      "resizable": true,
+      "path": "/widget/weather",
+      "meta": {},
+      "backgroundThrottling": true,
+      "previewImage": "修改为组件预览图地址",
+      "supportDeployMode": 17,
+      "configPagePath": "/widget/config/weather",
+      "routes": []
+    },
+    {
+      "name": "cn.example.widget.clock",
+      "title": {
+        "zh-CN": "时钟"
+      },
+      "description": {
+        "zh-CN": "Hello world!"
+      },
+      "keywords": [
+        "recommend"
+      ],
+      "security": false,
+      "permissions": [],
+      "lang": "zh-CN",
+      "width": 2,
+      "height": 2,
+      "maxWidth": 6,
+      "webviewTag": false,
+      "maxHeight": 6,
+      "minWidth": 2,
+      "minHeight": 2,
+      "movable": true,
+      "singleton": false,
+      "resizable": true,
+      "path": "/widget/clock",
+      "meta": {},
+      "backgroundThrottling": true,
+      "previewImage": "/preview_clock.png",
+      "supportDeployMode": 17,
+      "configPagePath": "/widget/config/clock",
+      "routes": []
+    }
+  ],
+  "pages": []
+}
