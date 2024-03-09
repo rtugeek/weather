@@ -1,0 +1,1 @@
+var a=Object.defineProperty;var s=(l,e,o)=>e in l?a(l,e,{enumerable:!0,configurable:!0,writable:!0,value:o}):l[e]=o;var t=(l,e,o)=>(s(l,typeof e!="symbol"?e+"":e,o),o);import{W as d}from"./index-Pyh5Eoy5.js";class c extends d{constructor(){super(...arguments);t(this,"title","Hello world!")}}export{c as C};

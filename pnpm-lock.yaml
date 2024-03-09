@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@icon-park/vue-next':
+    specifier: ^1.4.2
+    version: 1.4.2(vue@3.4.19)
   '@vueuse/core':
     specifier: ^10.9.0
     version: 10.9.0(vue@3.4.19)
@@ -23,6 +26,9 @@ dependencies:
   element-plus:
     specifier: ^2.6.0
     version: 2.6.0(vue@3.4.19)
+  qweather-icons:
+    specifier: ^1.6.0
+    version: 1.6.0
   vue:
     specifier: ^3.3.11
     version: 3.4.19(typescript@5.3.3)
@@ -3998,6 +4004,11 @@ packages:
   /queue-microtask@1.2.3:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
     dev: true
+
+  /qweather-icons@1.6.0:
+    resolution: {integrity: sha512-uINrSOteHHarEeHRpP37aBnuuwYnWc1eyZ2gbnujoEqOVabIPDiEseF7a9eIOnBn7GZBlo5nYj29eOEfLH/bEA==}
+    engines: {node: '>=10'}
+    dev: false
 
   /read-pkg-up@7.0.1:
     resolution: {integrity: sha512-zK0TB7Xd6JpCLmlLmufqykGE+/TlOePD6qKClNW7hHDKFh/J7/7gCWGR7joEQEW1bKq3a3yUZSObOoWLFQ4ohg==}

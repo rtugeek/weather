@@ -1,6 +1,6 @@
 import { Widget, WidgetKeyword } from '@widget-js/core'
 
-const name = 'cn.widgetjs.widget.weather.weather'
+const name = 'cn.widgetjs.widget.weather.small'
 // 组件标题
 const title = { 'zh-CN': '天气组件' }
 // 组件描述
@@ -24,7 +24,7 @@ const WeatherWidget = new Widget({
   maxWidth: 4,
   minHeight: 2,
   maxHeight: 2,
-  previewImage: '修改为组件预览图地址',
+  previewImage: '/preview_small.png',
   path,
   configPagePath,
 })

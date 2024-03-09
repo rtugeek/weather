@@ -20,6 +20,24 @@ export class WeatherApi {
     const result = await axios.get(`https://weatheroffer.com/api/weather/daily?location=${location}&lang=${lang}`)
     return result.data
   }
+
+  /**
+   * @param location 只能是id
+   * @param lang
+   */
+  static async getHourly(location: string, lang = LANGUAGE_CODE): Promise<WeatherResponse<HourlyWeatherData>> {
+    const result = await axios.get(`https://weatheroffer.com/api/weather/hourly?location=${location}&lang=${lang}`)
+    return result.data
+  }
+
+  static getBackgroundColor(code: string) {
+    const blueSkyCode = ['100', '101', '102', '103', '150', '151', '152', '153']
+    if (blueSkyCode.includes(code)) {
+      return 'linear-gradient(225deg, #87CEEB 0%, #1E90FF 100%)'
+    }
+    // else return grey sky
+    return 'linear-gradient(225deg, #B0C4DE 0%, #708090 100%)'
+  }
 }
 
 export interface WeatherResponse<T> {
@@ -65,7 +83,7 @@ export const DEFAULT_LOCATION: WeatherLocation = {
   fxLink: 'https://www.qweather.com/weather/jimei-101230206.html',
 }
 
-export interface WeatherDataItem {
+export interface DailyWeatherDataItem {
   fxDate: string
   sunrise: string
   sunset: string
@@ -95,8 +113,31 @@ export interface WeatherDataItem {
   uvIndex: string
 }
 
+export interface HourlyWeatherDataItem {
+  fxTime: string
+  temp: string
+  icon: string
+  text: string
+  wind360: string
+  windDir: string
+  windScale: string
+  windSpeed: string
+  humidity: string
+  pop: string
+  precip: string
+  pressure: string
+  cloud: string
+  dew: string
+}
+
 interface DailyWeatherData {
   updateTime: string
-  daily: WeatherDataItem[]
+  daily: DailyWeatherDataItem[]
+  expiredTime: number
+}
+
+interface HourlyWeatherData {
+  updateTime: string
+  hourly: HourlyWeatherDataItem[]
   expiredTime: number
 }
