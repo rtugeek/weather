@@ -1,32 +1,21 @@
 import { Widget, WidgetKeyword } from '@widget-js/core'
 
-const name = 'cn.widgetjs.widget.weather.small'
-// 组件标题
-const title = { 'zh-CN': '天气组件' }
-// 组件描述
-const description = { 'zh-CN': '' }
-// 组件关键词
-const keywords = [WidgetKeyword.RECOMMEND]
-// 组件路由地址
-const path = '/widget/weather'
-// 配置页路由地址
-const configPagePath = '/widget/config/weather'
 // 组件关键词
 const WeatherWidget = new Widget({
-  name,
-  title,
-  description,
-  keywords,
+  name: 'cn.widgetjs.widget.weather.small',
+  title: { 'zh-CN': '天气组件' },
+  description: { 'zh-CN': '显示最近一小时天气情况' },
+  keywords: [WidgetKeyword.RECOMMEND],
   lang: 'zh-CN',
-  width: 4,
-  height: 4,
+  width: 2,
+  height: 2,
   minWidth: 2,
-  maxWidth: 4,
+  maxWidth: 2,
   minHeight: 2,
   maxHeight: 2,
   previewImage: '/preview_small.png',
-  path,
-  configPagePath,
+  path: '/widget/small',
+  configPagePath: '/widget/config/small',
 })
 
 export default WeatherWidget
