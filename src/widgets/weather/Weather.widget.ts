@@ -4,7 +4,7 @@ import { Widget, WidgetKeyword } from '@widget-js/core'
 const WeatherWidget = new Widget({
   name: 'cn.widgetjs.widget.weather.small',
   title: { 'zh-CN': '天气组件' },
-  description: { 'zh-CN': '显示最近一小时天气情况' },
+  description: { 'zh-CN': '显示最近1小时天气情况' },
   keywords: [WidgetKeyword.RECOMMEND],
   lang: 'zh-CN',
   width: 2,
