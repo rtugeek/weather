@@ -21,12 +21,16 @@ const { widgetData } = useWidget(WidgetData, {
 
 function update() {
   let borderRadius = '22'
+  let fontSize = '16px'
   let dataColor: string | undefined = 'ffffff'
   if (widgetData.value.theme.borderRadius) {
     borderRadius = widgetData.value.theme.borderRadius.replaceAll('px', '')
   }
   if (widgetData.value.theme.color) {
     dataColor = widgetData.value.theme.color.replaceAll('#', '')
+  }
+  if (widgetData.value.theme.fontSize) {
+    fontSize = widgetData.value.theme.fontSize
   }
   window.WIDGET = {
     CONFIG: {
@@ -48,7 +52,7 @@ function update() {
     const plugin = document.getElementById('he-plugin-standard')
     plugin?.style.removeProperty('width')
     plugin?.style.removeProperty('height')
-    plugin?.style.setProperty('font-size', '16px')
+    plugin?.style.setProperty('font-size', fontSize)
   }
 }
 </script>

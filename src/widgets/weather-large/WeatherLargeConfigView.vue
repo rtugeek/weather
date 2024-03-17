@@ -17,6 +17,7 @@ const widgetConfigOption = new WidgetConfigOption({
     backgroundColor: false,
     borderRadius: true,
     color: true,
+    fontSize: [12, 20],
   },
 })
 
