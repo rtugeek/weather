@@ -2,18 +2,16 @@
 import { ref } from 'vue'
 import { useWidget } from '@widget-js/vue3'
 import { WidgetData } from '@widget-js/core'
-import { useStorage } from '@vueuse/core'
+import { useElementSize, useIntervalFn, useStorage, watchOnce } from '@vueuse/core'
 import { delay } from '@/utils/TimeUtils'
 
 const background = useStorage('background', 1)
 const hePluginStandardRef = ref<HTMLDivElement>()
+const containerSize = useElementSize(hePluginStandardRef)
 
 const { widgetData } = useWidget(WidgetData, {
   onDataLoaded(data, initialLoad) {
-    if (initialLoad) {
-      update()
-    }
-    else {
+    if (!initialLoad) {
       window.location.reload()
     }
   },
@@ -35,8 +33,8 @@ function update() {
   window.WIDGET = {
     CONFIG: {
       layout: '2',
-      width: 250,
-      height: 250,
+      width: containerSize.width.value,
+      height: containerSize.height.value,
       background: background.value,
       dataColor,
       borderRadius,
@@ -50,11 +48,18 @@ function update() {
   script.onload = async () => {
     await delay(500)
     const plugin = document.getElementById('he-plugin-standard')
-    plugin?.style.removeProperty('width')
-    plugin?.style.removeProperty('height')
     plugin?.style.setProperty('font-size', fontSize)
   }
 }
+
+watchOnce(containerSize.width, () => {
+  update()
+})
+
+// update every hour
+useIntervalFn(() => {
+  window.location.reload()
+}, 60 * 60 * 1000)
 </script>
 
 <template>
