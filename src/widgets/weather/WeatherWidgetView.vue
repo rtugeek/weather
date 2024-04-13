@@ -54,7 +54,7 @@ useIntervalFn(() => {
               {{ hourlyWeatherData.temp }}
             </div>
             <span>℃</span>
-            <img style="position: absolute;right: 24px;top:24px" width="32px" :src="`/weather/icon/${hourlyWeatherData.icon}.png`">
+            <img style="position: absolute;right: 24px;top:24px" width="32px" :src="`/weather/image/${hourlyWeatherData.icon}.png`">
           </div>
           <div class="flex gap-3">
             <span class="flex gap-1 items-center"><LocalTwo />{{ selectLocation.name }}</span>
@@ -101,10 +101,6 @@ useIntervalFn(() => {
 </template>
 
 <style scoped lang="scss">
-*{
-  user-select: none;
-}
-
 .root {
   color: var(--text-black-1);
   border-radius: var(--widget-border-radius);

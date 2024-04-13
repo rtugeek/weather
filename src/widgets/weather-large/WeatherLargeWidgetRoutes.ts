@@ -18,7 +18,7 @@ const WeatherLargeWidgetRoutes: RouteRecordRaw[] = [
     name: `${name}.config`,
     component: () =>
       import(
-        /* webpackChunkName: "cn.widgetjs.widget.weather.weather.config" */ './WeatherLargeConfigView.vue'
+        /* webpackChunkName: "cn.widgetjs.widget.weather.weather_large.config" */ '../weather/WeatherConfigView.vue'
       ),
   },
 ]

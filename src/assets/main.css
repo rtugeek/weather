@@ -1,4 +1,8 @@
-body{
+* {
+    user-select: none;
+}
+
+body {
     margin: 0;
 }
 

@@ -15,7 +15,7 @@ const WeatherLargeWidget = new Widget({
   maxHeight: 4,
   previewImage: '/preview_large.png',
   path: '/widget/large',
-  configPagePath: '/widget/config/large',
+  configPagePath: '/widget/config/small',
 })
 
 export default WeatherLargeWidget

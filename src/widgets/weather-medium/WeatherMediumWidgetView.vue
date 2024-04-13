@@ -53,7 +53,7 @@ useIntervalFn(() => {
     <div v-if="hourlyWeatherData" class="flex flex-col root theme--light" :class="{ [backgroundClass]: true }">
       <div class="flex p-2">
         <div class="flex items-center">
-          <img width="64px" :src="`/weather/icon/${hourlyWeatherData?.icon}.png`" alt="QWeather">
+          <img width="64px" :src="`/weather/image/${hourlyWeatherData?.icon}.png`" alt="QWeather">
           <div class="current-live__item">
             <p class="text-2xl">
               {{ hourlyWeatherData.temp }}°
@@ -92,10 +92,6 @@ useIntervalFn(() => {
 </template>
 
 <style scoped lang="scss">
-*{
-  user-select: none;
-}
-
 .root {
   color: var(--text-black-1);
   border-radius: var(--widget-border-radius);
