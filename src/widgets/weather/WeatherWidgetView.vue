@@ -15,8 +15,8 @@ useWidget(WidgetData, {
 const errorMsg = ref('')
 const hourlyWeatherData = ref<HourlyWeatherDataItem>()
 
-const backgroundColor = computed(() => {
-  return WeatherApi.getBackgroundColor(hourlyWeatherData.value?.icon ?? '')
+const backgroundClass = computed(() => {
+  return WeatherApi.getBackgroundClass(Number.parseInt(hourlyWeatherData.value?.icon ?? '100'))
 })
 const locationId = useStorage('locationId', DEFAULT_LOCATION.id)
 const selectLocation = useStorage<WeatherLocation>('selectLocation', DEFAULT_LOCATION)
@@ -43,57 +43,54 @@ useIntervalFn(() => {
 
 <template>
   <widget-wrapper>
-    <div class="root">
+    <div class="root theme--light" :class="{ [backgroundClass]: true }">
       <div v-if="errorMsg">
         {{ errorMsg }}
       </div>
-      <div v-else-if="hourlyWeatherData" class="p-2">
-        <div class="flex flex-col gap-3">
+      <div v-else-if="hourlyWeatherData">
+        <div class="flex flex-col gap-3 p-2">
           <div class="flex items-baseline gap-1">
-            <div class="temp">
+            <div class="text-4xl">
               {{ hourlyWeatherData.temp }}
             </div>
             <span>℃</span>
+            <img style="position: absolute;right: 24px;top:24px" width="32px" :src="`/weather/icon/${hourlyWeatherData.icon}.png`">
           </div>
           <div class="flex gap-3">
-            <div class="windScale flex gap-1 items-center">
-              <i :class="`qi-${hourlyWeatherData?.icon}`" />
-              {{ hourlyWeatherData.text }}
-            </div>
             <span class="flex gap-1 items-center"><LocalTwo />{{ selectLocation.name }}</span>
           </div>
 
-          <div class="w-full flex gap-2 justify-evenly text-sm">
+          <div class="current-basic flex gap-2 justify-evenly text-sm">
             <el-tooltip content="风力等级">
-              <div class="windScale flex flex-col items-center">
+              <div class="current-basic-item windScale flex flex-col items-center">
                 <div class="text-lg">
                   <i class="qi-2208 " />
                 </div>
-                {{ hourlyWeatherData.windScale }}
+                <p>{{ hourlyWeatherData.windScale }}</p>
               </div>
             </el-tooltip>
             <el-tooltip content="风速">
-              <div class="windSpeed flex flex-col items-center">
+              <div class="current-basic-item windSpeed flex flex-col items-center">
                 <div class="text-lg">
                   <i class="qi-1018" />
                 </div>
-                {{ hourlyWeatherData.windSpeed }}
+                <p>{{ hourlyWeatherData.windSpeed }}</p>
               </div>
             </el-tooltip>
             <el-tooltip content="风向">
-              <div class="windScale flex flex-col items-center">
+              <div class="current-basic-item windScale flex flex-col items-center">
                 <div class="text-lg">
                   <i class="qi-1702 " />
                 </div>
-                {{ hourlyWeatherData.windDir }}
+                <p>      {{ hourlyWeatherData.windDir }}</p>
               </div>
             </el-tooltip>
             <el-tooltip content="湿度">
-              <div class="humidity flex flex-col items-center">
+              <div class="current-basic-item humidity flex flex-col items-center">
                 <div class="text-lg">
                   <i class="qi-1036" />
                 </div>
-                {{ hourlyWeatherData.humidity }}
+                <p>{{ hourlyWeatherData.humidity }}</p>
               </div>
             </el-tooltip>
           </div>
@@ -103,18 +100,19 @@ useIntervalFn(() => {
   </widget-wrapper>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 *{
   user-select: none;
 }
 
 .root {
-  color:white;
-  background: v-bind(backgroundColor);
+  color: var(--text-black-1);
   border-radius: var(--widget-border-radius);
+  overflow: hidden;
 }
 
-.temp{
-  font-size: 2.5rem;
+.current-basic{
+  font-size: 12px;
+  padding: 4px;
 }
 </style>

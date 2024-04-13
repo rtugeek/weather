@@ -19,6 +19,9 @@ const locations = ref<WeatherLocation[]>([selectLocation.value])
 // 修改成需要设置组件参数配置
 const widgetConfigOption = new WidgetConfigOption({
   custom: true,
+  theme: {
+    borderRadius: true,
+  },
 })
 
 const searchLocation = useDebounceFn((keyword: string) => {

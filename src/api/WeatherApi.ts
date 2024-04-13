@@ -1,6 +1,9 @@
 import axios from 'axios'
 import { LANGUAGE_CODE } from '@/utils/LanguageUtils'
 
+/**
+ * @see https://dev.qweather.com/docs/resource/icons/
+ */
 export class WeatherApi {
   /**
    * @param location 可以是经纬度，也可以是城市名
@@ -30,13 +33,29 @@ export class WeatherApi {
     return result.data
   }
 
-  static getBackgroundColor(code: string) {
-    const blueSkyCode = ['100', '101', '102', '103', '150', '151', '152', '153']
-    if (blueSkyCode.includes(code)) {
-      return 'linear-gradient(225deg, #87CEEB 0%, #1E90FF 100%)'
+  static getBackgroundClass(code: number) {
+    // cloudy
+    if (this.between(code, 101, 104) || this.between(code, 151, 153)) {
+      return 'city-weather-cloudy'
     }
-    // else return grey sky
-    return 'linear-gradient(225deg, #B0C4DE 0%, #708090 100%)'
+    // rain
+    if (this.between(code, 101, 104) || this.between(code, 151, 153)) {
+      return 'city-weather-rain'
+    }
+    // snow
+    if (this.between(code, 400, 499)) {
+      return 'city-weather-snow'
+    }
+    // mist or fog
+    if (this.between(code, 500, 515)) {
+      return 'city-weather-haze'
+    }
+    // else return sunny sky
+    return 'city-weather-sun'
+  }
+
+  private static between(x: number, min: number, max: number) {
+    return x >= min && x <= max
   }
 }
 
@@ -114,6 +133,9 @@ export interface DailyWeatherDataItem {
 }
 
 export interface HourlyWeatherDataItem {
+  /**
+   * 预报时间
+   */
   fxTime: string
   temp: string
   icon: string
@@ -122,11 +144,23 @@ export interface HourlyWeatherDataItem {
   windDir: string
   windScale: string
   windSpeed: string
+  /**
+   * 相对湿度，百分比数值
+   */
   humidity: string
+  /**
+   * 降水概率
+   */
   pop: string
+  /**
+   * 降水量
+   */
   precip: string
   pressure: string
   cloud: string
+  /**
+   * 露点温度
+   */
   dew: string
 }
 

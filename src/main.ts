@@ -7,6 +7,7 @@ import router from './router'
 import 'virtual:uno.css'
 import 'qweather-icons/font/qweather-icons.css'
 import '@icon-park/vue-next/styles/index.css'
+import '@/assets/qweather.css'
 
 const app = createApp(App)
 app.use(router)
