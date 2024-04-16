@@ -12,7 +12,7 @@ export default new WidgetPackage({
   title: {
     'zh-CN': '天气组件包',
   },
-  version: '1.0.0',
+  version: '0.0.3',
   remote: {
     entry: 'https://rtugeek.gitee.io/weather',
     hash: true,

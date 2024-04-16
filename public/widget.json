@@ -1,6 +1,6 @@
 {
   "name": "cn.widgetjs.widget.weather",
-  "version": "1.0.0",
+  "version": "0.0.3",
   "author": "Neo Fu",
   "homepage": "",
   "title": {
@@ -20,38 +20,6 @@
   "hash": true,
   "url": "",
   "widgets": [
-    {
-      "name": "cn.widgetjs.widget.weather.small",
-      "title": {
-        "zh-CN": "天气组件"
-      },
-      "description": {
-        "zh-CN": "显示最近1小时天气情况"
-      },
-      "keywords": [
-        "recommend"
-      ],
-      "security": false,
-      "permissions": [],
-      "lang": "zh-CN",
-      "width": 2,
-      "height": 2,
-      "maxWidth": 2,
-      "webviewTag": false,
-      "maxHeight": 2,
-      "minWidth": 2,
-      "minHeight": 2,
-      "movable": true,
-      "singleton": false,
-      "resizable": false,
-      "path": "/widget/small",
-      "meta": {},
-      "backgroundThrottling": true,
-      "previewImage": "/preview_small.png",
-      "supportDeployMode": 17,
-      "configPagePath": "/widget/config/small",
-      "routes": []
-    },
     {
       "name": "cn.widgetjs.widget.weather.medium",
       "title": {
@@ -112,6 +80,38 @@
       "meta": {},
       "backgroundThrottling": true,
       "previewImage": "/preview_large.png",
+      "supportDeployMode": 17,
+      "configPagePath": "/widget/config/small",
+      "routes": []
+    },
+    {
+      "name": "cn.widgetjs.widget.weather.small",
+      "title": {
+        "zh-CN": "天气组件"
+      },
+      "description": {
+        "zh-CN": "显示最近1小时天气情况"
+      },
+      "keywords": [
+        "recommend"
+      ],
+      "security": false,
+      "permissions": [],
+      "lang": "zh-CN",
+      "width": 2,
+      "height": 2,
+      "maxWidth": 2,
+      "webviewTag": false,
+      "maxHeight": 2,
+      "minWidth": 2,
+      "minHeight": 2,
+      "movable": true,
+      "singleton": false,
+      "resizable": false,
+      "path": "/widget/small",
+      "meta": {},
+      "backgroundThrottling": true,
+      "previewImage": "/preview_small.png",
       "supportDeployMode": 17,
       "configPagePath": "/widget/config/small",
       "routes": []

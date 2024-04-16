@@ -1,11 +1,14 @@
 <script lang="ts" setup>
-import { WidgetData } from '@widget-js/core'
-import { useWidget } from '@widget-js/vue3'
-import { computed, ref } from 'vue'
-import { useIntervalFn, useStorage } from '@vueuse/core'
-import dayjs from 'dayjs'
 import { LocalTwo } from '@icon-park/vue-next'
-import { DEFAULT_LOCATION, type HourlyWeatherDataItem, WeatherApi, type WeatherLocation } from '@/api/WeatherApi'
+import { useIntervalFn } from '@vueuse/core'
+import dayjs from 'dayjs'
+import { computed } from 'vue'
+import { useWidget } from '@widget-js/vue3'
+import { WidgetData } from '@widget-js/core'
+import QWeatherWrapper from '@/component/QWeatherWrapper.vue'
+import { useWeatherApi } from '@/hook/useWeatherApi'
+import { WeatherUtils } from '@/utils/WeatherUtils'
+import { QWeatherApi, type QWeatherNowResponse } from '@/api/QWeatherApi'
 
 useWidget(WidgetData, {
   onDataLoaded() {
@@ -13,52 +16,34 @@ useWidget(WidgetData, {
   },
 })
 
-const errorMsg = ref('')
-const hourlyWeatherData = ref<HourlyWeatherDataItem>()
-
-const backgroundClass = computed(() => {
-  return WeatherApi.getBackgroundClass(Number.parseInt(hourlyWeatherData.value?.icon ?? '100'))
-})
-const locationId = useStorage('locationId', DEFAULT_LOCATION.id)
-const selectLocation = useStorage<WeatherLocation>('selectLocation', DEFAULT_LOCATION)
-
-function update() {
-  WeatherApi.getHourly(locationId.value).then((res) => {
-    if (res.code == 0) {
-      hourlyWeatherData.value = res.data.hourly[0]
-    }
-    else {
-      errorMsg.value = res.message
-    }
-  }).catch((e) => {
-    if (e.message) {
-      errorMsg.value = e.message
-    }
-  })
+function updateFn(): Promise<QWeatherNowResponse> {
+  return QWeatherApi.now(selectLocation.value.id, apiKey.value)
 }
 
-useIntervalFn(() => {
-  update()
-}, 60 * 60 * 1000)
+const { errorMsg, responseData, now, selectLocation, apiKey, update } = useWeatherApi(updateFn)
 
-const now = ref(dayjs())
-
+const weatherData = computed(() => {
+  return responseData.value?.now
+})
+const backgroundClass = computed(() => {
+  return WeatherUtils.getBackgroundClass(Number.parseInt(weatherData.value?.icon ?? '100'))
+})
 useIntervalFn(() => {
   now.value = dayjs()
 }, 60 * 1000)
 </script>
 
 <template>
-  <widget-wrapper>
-    <div v-if="hourlyWeatherData" class="flex flex-col root theme--light" :class="{ [backgroundClass]: true }">
+  <QWeatherWrapper :error-msg="errorMsg">
+    <div v-if="weatherData" class="flex flex-col root theme--light" :class="{ [backgroundClass]: true }">
       <div class="flex p-2">
         <div class="flex items-center">
-          <img width="64px" :src="`/weather/image/${hourlyWeatherData?.icon}.png`" alt="QWeather">
+          <img width="64px" :src="`/weather/image/${weatherData?.icon}.png`" alt="QWeather">
           <div class="current-live__item">
             <p class="text-2xl">
-              {{ hourlyWeatherData.temp }}°
+              {{ weatherData.temp }}°
             </p>
-            <p>{{ hourlyWeatherData.text }}</p>
+            <p>{{ weatherData.text }}</p>
           </div>
         </div>
         <p class="current-time ml-auto text-right leading-6">
@@ -70,25 +55,25 @@ useIntervalFn(() => {
       <div class="current-basic flex justify-around justify-center items-center">
         <div class="flex flex-col items-center">
           <p>
-            {{ hourlyWeatherData.windScale }}级
+            {{ weatherData.windScale }}级
           </p>
-          <p>{{ hourlyWeatherData.windDir }}</p>
+          <p>{{ weatherData.windDir }}</p>
         </div>
         <div class="flex flex-col items-center">
-          <p>{{ hourlyWeatherData.humidity }}%</p>
+          <p>{{ weatherData.humidity }}%</p>
           <p>相对湿度</p>
         </div>
         <div class="flex flex-col items-center">
-          <p>{{ hourlyWeatherData.precip }}</p>
+          <p>{{ weatherData.precip }}</p>
           <p>降水量</p>
         </div>
         <div class="flex flex-col items-center">
-          <p>{{ hourlyWeatherData.pressure }}hPa</p>
+          <p>{{ weatherData.pressure }}hPa</p>
           <p>大气压</p>
         </div>
       </div>
     </div>
-  </widget-wrapper>
+  </QWeatherWrapper>
 </template>
 
 <style scoped lang="scss">

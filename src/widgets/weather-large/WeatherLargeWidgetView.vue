@@ -1,13 +1,24 @@
 <script lang="ts" setup>
-import { WidgetData } from '@widget-js/core'
-import { useWidget } from '@widget-js/vue3'
-import { computed, ref } from 'vue'
-import { useIntervalFn, useStorage } from '@vueuse/core'
+import { useIntervalFn } from '@vueuse/core'
 import dayjs from 'dayjs'
 import { LocalTwo } from '@icon-park/vue-next'
-import { StringUtils } from '../../utils/StringUtils'
-import { DEFAULT_LOCATION, WeatherApi, type WeatherLocation } from '@/api/WeatherApi'
+import { computed } from 'vue'
+import { useWidget } from '@widget-js/vue3'
+import { WidgetData } from '@widget-js/core'
+import { StringUtils } from '@/utils/StringUtils'
 import { WidgetWeatherApi, type WidgetWeatherResponse } from '@/api/WidgetWeatherApi'
+import { useWeatherApi } from '@/hook/useWeatherApi'
+import { WeatherUtils } from '@/utils/WeatherUtils'
+import QWeatherWrapper from '@/component/QWeatherWrapper.vue'
+
+function updateFn(): Promise<WidgetWeatherResponse> {
+  return WidgetWeatherApi.get(selectLocation.value.id)
+}
+const { errorMsg, responseData: weatherData, now, selectLocation, update } = useWeatherApi(updateFn)
+
+const backgroundClass = computed(() => {
+  return WeatherUtils.getBackgroundClass(Number.parseInt(weatherData.value?.now.cond_code ?? '100'))
+})
 
 useWidget(WidgetData, {
   onDataLoaded() {
@@ -15,43 +26,13 @@ useWidget(WidgetData, {
   },
 })
 
-const errorMsg = ref('')
-const weatherData = ref<WidgetWeatherResponse>()
-
-const backgroundClass = computed(() => {
-  return WeatherApi.getBackgroundClass(Number.parseInt(weatherData.value?.now.cond_code ?? '100'))
-})
-const locationId = useStorage('locationId', DEFAULT_LOCATION.id)
-const selectLocation = useStorage<WeatherLocation>('selectLocation', DEFAULT_LOCATION)
-
-function update() {
-  WidgetWeatherApi.get(locationId.value).then((res) => {
-    if (res.status == 'ok') {
-      weatherData.value = res
-    }
-    else {
-      errorMsg.value = res.status
-    }
-  }).catch((e) => {
-    if (e.message) {
-      errorMsg.value = e.message
-    }
-  })
-}
-
-useIntervalFn(() => {
-  update()
-}, 60 * 60 * 1000)
-
-const now = ref(dayjs())
-
 useIntervalFn(() => {
   now.value = dayjs()
 }, 60 * 1000)
 </script>
 
 <template>
-  <widget-wrapper>
+  <QWeatherWrapper :error-msg="errorMsg">
     <div v-if="weatherData" class="root theme--light" :class="{ [backgroundClass]: true }">
       <div class="flex flex-col  weather-bg relative gap-2 h-full">
         <div class="flex p-2">
@@ -90,7 +71,7 @@ useIntervalFn(() => {
         </div>
       </div>
     </div>
-  </widget-wrapper>
+  </QWeatherWrapper>
 </template>
 
 <style scoped lang="scss">
