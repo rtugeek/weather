@@ -32,7 +32,7 @@ useIntervalFn(() => {
 </script>
 
 <template>
-  <QWeatherWrapper :error-msg="errorMsg">
+  <QWeatherWrapper :check-api-key="false" :error-msg="errorMsg">
     <div v-if="weatherData" class="root theme--light" :class="{ [backgroundClass]: true }">
       <div class="flex flex-col  weather-bg relative gap-2 h-full">
         <div class="flex p-2">
