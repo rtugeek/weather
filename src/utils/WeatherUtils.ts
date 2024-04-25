@@ -5,7 +5,7 @@ export class WeatherUtils {
       return 'city-weather-cloudy'
     }
     // rain
-    if (this.between(code, 101, 104) || this.between(code, 151, 153)) {
+    if (this.between(code, 101, 399)) {
       return 'city-weather-rain'
     }
     // snow
