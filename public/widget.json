@@ -1,6 +1,6 @@
 {
   "name": "cn.widgetjs.widget.weather",
-  "version": "0.0.4",
+  "version": "0.0.6",
   "author": "Neo Fu",
   "homepage": "",
   "title": {
@@ -10,10 +10,10 @@
     "zh-CN": "天气组件包"
   },
   "entry": "/",
-  "remoteEntry": "https://rtugeek.gitee.io/weather",
-  "remotePackage": "https://rtugeek.gitee.io/weather/widget.json",
+  "remoteEntry": "https://widgetjs.cn/weather",
+  "remotePackage": "https://widgetjs.cn/weather/widget.json",
   "remote": {
-    "entry": "https://rtugeek.gitee.io/weather",
+    "entry": "https://widgetjs.cn/weather",
     "hash": true,
     "base": "/weather"
   },

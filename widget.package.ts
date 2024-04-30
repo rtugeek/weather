@@ -12,14 +12,13 @@ export default new WidgetPackage({
   title: {
     'zh-CN': '天气组件包',
   },
-  version: '0.0.4',
   remote: {
-    entry: 'https://rtugeek.gitee.io/weather',
+    entry: 'https://widgetjs.cn/weather',
     hash: true,
     base: '/weather',
   },
-  remoteEntry: 'https://rtugeek.gitee.io/weather',
-  remotePackage: 'https://rtugeek.gitee.io/weather/widget.json',
+  remoteEntry: 'https://widgetjs.cn/weather',
+  remotePackage: 'https://widgetjs.cn/weather/widget.json',
   devOptions: {
     folder: './src/widgets/',
     devUrl: 'http://localhost:5174',

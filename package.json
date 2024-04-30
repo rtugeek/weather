@@ -1,7 +1,7 @@
 {
   "name": "@widget-js/weather",
   "type": "module",
-  "version": "0.0.3",
+  "version": "0.0.6",
   "private": true,
   "scripts": {
     "dev": "vite",
@@ -10,7 +10,8 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "donwload": "node script/download.js",
-    "type-check": "vue-tsc --build --force"
+    "type-check": "vue-tsc --build --force",
+    "release": "widget release -t ftp"
   },
   "dependencies": {
     "@icon-park/vue-next": "^1.4.2",
@@ -30,7 +31,7 @@
     "@types/node": "^18.19.3",
     "@vitejs/plugin-vue": "^4.5.2",
     "@vue/tsconfig": "^0.5.0",
-    "@widget-js/vite-plugin-widget": "24.1.1-beta.3",
+    "@widget-js/vite-plugin-widget": "24.1.1-beta.5",
     "eslint": "^8.57.0",
     "lint-staged": "^15.2.2",
     "sass": "^1.75.0",
