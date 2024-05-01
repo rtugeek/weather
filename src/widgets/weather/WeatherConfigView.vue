@@ -30,7 +30,8 @@ const searchLocation = useDebounceFn((keyword: string) => {
     return
   }
   loading.value = true
-  GeoApi.lookup(keyword, apiKey.value).then((res) => {
+  const key = apiKey.value ? apiKey.value : '8710b314b17841dfad4ec089881eb380'
+  GeoApi.lookup(keyword, key).then((res) => {
     if (res.code == '200') {
       locations.value = res.location
       if (res.location.length > 0) {
