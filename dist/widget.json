@@ -15,7 +15,8 @@
   "remote": {
     "entry": "https://widgetjs.cn/weather",
     "hash": true,
-    "base": "/weather"
+    "base": "/weather",
+    "hostname": "widgetjs.cn"
   },
   "hash": true,
   "url": "",

@@ -16,6 +16,7 @@ export default new WidgetPackage({
     entry: 'https://widgetjs.cn/weather',
     hash: true,
     base: '/weather',
+    hostname: 'widgetjs.cn',
   },
   remoteEntry: 'https://widgetjs.cn/weather',
   remotePackage: 'https://widgetjs.cn/weather/widget.json',
