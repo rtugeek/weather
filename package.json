@@ -1,7 +1,7 @@
 {
   "name": "@widget-js/weather",
   "type": "module",
-  "version": "0.0.6",
+  "version": "1.0.1",
   "private": true,
   "scripts": {
     "dev": "vite",
@@ -21,6 +21,7 @@
     "@widget-js/core": "^24.1.1-beta.5",
     "@widget-js/vue3": "^24.1.1-beta.5",
     "axios": "^1.6.7",
+    "consola": "^3.2.3",
     "dayjs": "^1.11.10",
     "element-plus": "^2.6.0",
     "qweather-icons": "^1.6.0",

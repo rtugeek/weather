@@ -6,20 +6,16 @@ import { WidgetData } from '@widget-js/core'
 import QWeatherWrapper from '@/component/QWeatherWrapper.vue'
 import { useWeatherApi } from '@/hook/useWeatherApi'
 import { WeatherUtils } from '@/utils/WeatherUtils'
-import { QWeatherApi, type QWeatherNowResponse } from '@/api/QWeatherApi'
+import { WidgetWeatherApi, type WidgetWeatherResponse } from '@/api/WidgetWeatherApi'
 
-function updateFn(): Promise<QWeatherNowResponse> {
-  return QWeatherApi.now(selectLocation.value.id, apiKey.value)
+function updateFn(): Promise<WidgetWeatherResponse> {
+  return WidgetWeatherApi.get(selectLocation.value.id)
 }
 
-const { errorMsg, responseData, selectLocation, apiKey, update } = useWeatherApi(updateFn)
-
-const weatherData = computed(() => {
-  return responseData.value?.now
-})
+const { errorMsg, responseData: weatherData, selectLocation, apiKey, update } = useWeatherApi(updateFn)
 
 const backgroundClass = computed(() => {
-  return WeatherUtils.getBackgroundClass(Number.parseInt(weatherData.value?.icon ?? '100'))
+  return WeatherUtils.getBackgroundClass(Number.parseInt(weatherData.value?.now.cond_code ?? '100'))
 })
 
 useWidget(WidgetData, {
@@ -30,55 +26,55 @@ useWidget(WidgetData, {
 </script>
 
 <template>
-  <QWeatherWrapper :error-msg="errorMsg">
+  <QWeatherWrapper :check-api-key="false" :error-msg="errorMsg">
     <div class="root theme--light" :class="{ [backgroundClass]: true }">
       <div v-if="weatherData">
         <div class="flex flex-col gap-3 p-2">
           <div class="flex items-baseline gap-1">
             <div class="text-4xl">
-              {{ weatherData.temp }}
+              {{ weatherData.now.tmp }}
             </div>
             <span>℃</span>
             <img
               style="position: absolute;right: 24px;top:24px" width="32px"
-              :src="`/weather/image/${weatherData.icon}.png`"
+              :src="`/weather/image/${weatherData.now.cond_code}.png`"
             >
           </div>
           <div class="flex gap-3">
             <span class="flex gap-1 items-center"><LocalTwo />{{ selectLocation.name }}</span>
           </div>
 
-          <div class="current-basic flex gap-2 justify-evenly text-sm">
+          <div class="current-basic flex gap-2 justify-around text-sm text-center">
             <el-tooltip content="风力等级">
               <div class="current-basic-item windScale flex flex-col items-center">
                 <div class="text-lg">
                   <i class="qi-2208 " />
                 </div>
-                <p>{{ weatherData.windScale }}</p>
+                <p>{{ weatherData.daily_forecast[0].wind_dir }}</p>
               </div>
             </el-tooltip>
-            <el-tooltip content="风速">
+            <el-tooltip content="空气质量">
               <div class="current-basic-item windSpeed flex flex-col items-center">
                 <div class="text-lg">
-                  <i class="qi-1018" />
+                  <i class="qi-2202" />
                 </div>
-                <p>{{ weatherData.windSpeed }}</p>
+                <p>{{ weatherData.air_now_city.qlty }}</p>
               </div>
             </el-tooltip>
-            <el-tooltip content="风向">
+            <el-tooltip content="最低气温">
               <div class="current-basic-item windScale flex flex-col items-center">
                 <div class="text-lg">
-                  <i class="qi-1702 " />
+                  <i class="qi-1056 " />
                 </div>
-                <p>{{ weatherData.windDir }}</p>
+                <p class="ml-1">{{ weatherData.daily_forecast[0].tmp_min }}</p>
               </div>
             </el-tooltip>
-            <el-tooltip content="湿度">
+            <el-tooltip content="最高气温">
               <div class="current-basic-item humidity flex flex-col items-center">
                 <div class="text-lg">
-                  <i class="qi-1036" />
+                  <i class="qi-1009" />
                 </div>
-                <p>{{ weatherData.humidity }}</p>
+                <p class="ml-1">{{ weatherData.daily_forecast[0].tmp_max }}</p>
               </div>
             </el-tooltip>
           </div>
@@ -90,6 +86,7 @@ useWidget(WidgetData, {
 
 <style scoped lang="scss">
 .root {
+  font-size: var(--widget-font-size);
   color: var(--text-black-1);
   border-radius: var(--widget-border-radius);
   overflow: hidden;

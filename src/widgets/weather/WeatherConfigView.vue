@@ -7,6 +7,7 @@ import {
 import { BrowserWindowApi, WidgetData } from '@widget-js/core'
 import { ref, watch } from 'vue'
 import { useDebounceFn, useStorage } from '@vueuse/core'
+import consola from 'consola'
 import { DEFAULT_LOCATION, GeoApi, type GeoLocation } from '@/api/GeoApi'
 
 const loading = ref(false)
@@ -22,6 +23,7 @@ const widgetConfigOption = new WidgetConfigOption({
   custom: true,
   theme: {
     borderRadius: true,
+    fontSize: [10, 30],
   },
 })
 
@@ -35,6 +37,7 @@ const searchLocation = useDebounceFn((keyword: string) => {
     if (res.code == '200') {
       locations.value = res.location
       if (res.location.length > 0) {
+        consola.log(`选择地区：${res.location[0]}`)
         selectLocation.value = res.location[0]
       }
     }

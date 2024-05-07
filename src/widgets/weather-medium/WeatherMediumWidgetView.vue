@@ -9,6 +9,7 @@ import QWeatherWrapper from '@/component/QWeatherWrapper.vue'
 import { useWeatherApi } from '@/hook/useWeatherApi'
 import { WeatherUtils } from '@/utils/WeatherUtils'
 import { QWeatherApi, type QWeatherNowResponse } from '@/api/QWeatherApi'
+import { WidgetWeatherApi, type WidgetWeatherResponse } from '@/api/WidgetWeatherApi'
 
 useWidget(WidgetData, {
   onDataLoaded() {
@@ -16,8 +17,8 @@ useWidget(WidgetData, {
   },
 })
 
-function updateFn(): Promise<QWeatherNowResponse> {
-  return QWeatherApi.now(selectLocation.value.id, apiKey.value)
+function updateFn(): Promise<WidgetWeatherResponse> {
+  return WidgetWeatherApi.get(selectLocation.value.id)
 }
 
 const { errorMsg, responseData, now, selectLocation, apiKey, update } = useWeatherApi(updateFn)
@@ -25,58 +26,65 @@ const { errorMsg, responseData, now, selectLocation, apiKey, update } = useWeath
 const weatherData = computed(() => {
   return responseData.value?.now
 })
+
 const backgroundClass = computed(() => {
-  return WeatherUtils.getBackgroundClass(Number.parseInt(weatherData.value?.icon ?? '100'))
+  return WeatherUtils.getBackgroundClass(Number.parseInt(weatherData.value?.cond_code ?? '100'))
 })
+
 useIntervalFn(() => {
   now.value = dayjs()
 }, 60 * 1000)
 </script>
 
 <template>
-  <QWeatherWrapper :error-msg="errorMsg">
-    <div v-if="weatherData" class="flex flex-col root theme--light" :class="{ [backgroundClass]: true }">
-      <div class="flex p-2">
-        <div class="flex items-center">
-          <img width="64px" :src="`/weather/image/${weatherData?.icon}.png`" alt="QWeather">
-          <div class="current-live__item">
-            <p class="text-2xl">
-              {{ weatherData.temp }}°
-            </p>
-            <p>{{ weatherData.text }}</p>
+  <QWeatherWrapper :check-api-key="false" :error-msg="errorMsg">
+    <div class="root" :class="{ [backgroundClass]: true }">
+      <div v-if="responseData" class="flex flex-col theme--light gap-1 justify-around" style="height: 94%" >
+        <div class="flex px-2">
+          <div class="flex items-center">
+            <img width="64px" :src="`/weather/image/${weatherData?.cond_code}.png`" alt="QWeather">
+            <div class="current-live__item">
+              <p class="text-2xl">
+                {{ weatherData?.tmp }}°
+              </p>
+              <p>{{ weatherData?.cond_txt }}</p>
+            </div>
           </div>
-        </div>
-        <p class="current-time ml-auto text-right leading-6">
-          {{ now.format('YYYY-MM-DD HH:mm') }}
-          <br>
-          <span><LocalTwo />{{ selectLocation.name }}</span>
-        </p>
-      </div>
-      <div class="current-basic flex justify-around justify-center items-center">
-        <div class="flex flex-col items-center">
-          <p>
-            {{ weatherData.windScale }}级
+          <p class="current-time ml-auto text-right leading-6">
+            {{ now.format('YYYY-MM-DD HH:mm') }}
+            <br>
+            <span><LocalTwo />{{ selectLocation.name }}</span>
           </p>
-          <p>{{ weatherData.windDir }}</p>
         </div>
-        <div class="flex flex-col items-center">
-          <p>{{ weatherData.humidity }}%</p>
-          <p>相对湿度</p>
-        </div>
-        <div class="flex flex-col items-center">
-          <p>{{ weatherData.precip }}</p>
-          <p>降水量</p>
-        </div>
-        <div class="flex flex-col items-center">
-          <p>{{ weatherData.pressure }}hPa</p>
-          <p>大气压</p>
+        <div class="current-basic flex justify-around justify-center items-center">
+          <div class="flex flex-col items-center gap-1">
+            <p>
+              {{responseData?.air_forecast[0].qlty}}
+            </p>
+            <p>空气质量</p>
+          </div>
+          <div class="flex flex-col items-center gap-1">
+            <p>{{ responseData?.daily_forecast[0].wind_dir }}</p>
+            <p>预报风向</p>
+          </div>
+          <div class="flex flex-col items-center gap-1">
+            <p>{{ responseData?.daily_forecast[0].tmp_min }}℃</p>
+            <p>最低气温</p>
+          </div>
+          <div class="flex flex-col items-center gap-1">
+            <p>{{responseData?.daily_forecast[0].tmp_max}}℃</p>
+            <p>最高气温</p>
+          </div>
         </div>
       </div>
     </div>
   </QWeatherWrapper>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss">
+html{
+  font-size: var(--widget-font-size);
+}
 .root {
   color: var(--text-black-1);
   border-radius: var(--widget-border-radius);
@@ -84,7 +92,7 @@ useIntervalFn(() => {
 
 .current-basic{
   height: 4rem;
-  font-size: 13px;
+  font-size: 0.8rem;
   margin: 0 12px;
   padding: 0 4px;
   font-weight: bold;

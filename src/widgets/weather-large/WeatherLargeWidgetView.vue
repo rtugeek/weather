@@ -34,8 +34,8 @@ useIntervalFn(() => {
 <template>
   <QWeatherWrapper :check-api-key="false" :error-msg="errorMsg">
     <div v-if="weatherData" class="root theme--light" :class="{ [backgroundClass]: true }">
-      <div class="flex flex-col  weather-bg relative gap-2 h-full">
-        <div class="flex p-2">
+      <div class="flex flex-col weather-bg relative h-full ">
+        <div class="flex px-2 py-1 items-center">
           <p>
             <LocalTwo />
             {{ selectLocation.name }}
@@ -45,9 +45,9 @@ useIntervalFn(() => {
             <br>
           </p>
         </div>
-        <div class="flex flex-col p-2 w-full items-center gap-2 flex-1">
+        <div class="flex flex-col w-full items-center justify-center gap-1 flex-1 mb-1">
           <div class="flex items-center">
-            <img width="80px" :src="`/weather/image/${weatherData?.now.cond_code}.png`" alt="QWeather">
+            <img width="70rem" :src="`/weather/image/${weatherData?.now.cond_code}.png`" alt="QWeather">
             <div class="current-live__item">
               <p class="text-2xl">
                 {{ weatherData.now.tmp }}°
@@ -58,7 +58,7 @@ useIntervalFn(() => {
           <p>{{ weatherData.rain.txt }}</p>
         </div>
         <div class="current-basic flex justify-around justify-center items-center mt-auto mx-4 my-4">
-          <div v-for="(item, index) in weatherData.daily_forecast" :key="index" class="flex flex-col gap-2 items-center">
+          <div v-for="(item, index) in weatherData.daily_forecast" :key="index" class="flex flex-col gap-1 items-center">
             <p class="font-bold">
               {{ StringUtils.getForecastDayText(index) }}
             </p>
@@ -76,6 +76,7 @@ useIntervalFn(() => {
 
 <style scoped lang="scss">
 .root {
+  font-size: var(--widget-font-size);
   color: var(--text-black-1);
   border-radius: var(--widget-border-radius);
 }
@@ -105,7 +106,6 @@ useIntervalFn(() => {
 }
 
 .current-basic {
-  font-size: 14px;
   padding: 8px 4px;
   border-radius: 12px;
   background-color: var(--city-weather-current-background-color);
