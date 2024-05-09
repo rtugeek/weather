@@ -2,23 +2,13 @@
 import { useIntervalFn } from '@vueuse/core'
 import dayjs from 'dayjs'
 import { LocalTwo } from '@icon-park/vue-next'
-import { computed } from 'vue'
 import { useWidget } from '@widget-js/vue3'
 import { WidgetData } from '@widget-js/core'
-import { StringUtils } from '@/utils/StringUtils'
-import { WidgetWeatherApi, type WidgetWeatherResponse } from '@/api/WidgetWeatherApi'
-import { useWeatherApi } from '@/hook/useWeatherApi'
-import { WeatherUtils } from '@/utils/WeatherUtils'
+import { StringUtils } from '../../utils/StringUtils'
+import { useQWeatherApi } from '@/hook/useQWeatherApi'
 import QWeatherWrapper from '@/component/QWeatherWrapper.vue'
 
-function updateFn(): Promise<WidgetWeatherResponse> {
-  return WidgetWeatherApi.get(selectLocation.value.id)
-}
-const { errorMsg, responseData: weatherData, now, selectLocation, update } = useWeatherApi(updateFn)
-
-const backgroundClass = computed(() => {
-  return WeatherUtils.getBackgroundClass(Number.parseInt(weatherData.value?.now.cond_code ?? '100'))
-})
+const { errorMsg, weatherData, backgroundClass, now, selectLocation, dailyIndex, update, weather3dResponse } = useQWeatherApi({ useIndex: true, useWeather3d: true })
 
 useWidget(WidgetData, {
   onDataLoaded() {
@@ -32,7 +22,7 @@ useIntervalFn(() => {
 </script>
 
 <template>
-  <QWeatherWrapper :check-api-key="false" :error-msg="errorMsg">
+  <QWeatherWrapper :error-msg="errorMsg">
     <div v-if="weatherData" class="root theme--light" :class="{ [backgroundClass]: true }">
       <div class="flex flex-col weather-bg relative h-full ">
         <div class="flex px-2 py-1 items-center">
@@ -47,26 +37,25 @@ useIntervalFn(() => {
         </div>
         <div class="flex flex-col w-full items-center justify-center gap-1 flex-1 mb-1">
           <div class="flex items-center">
-            <img width="70rem" :src="`/weather/image/${weatherData?.now.cond_code}.png`" alt="QWeather">
+            <img width="70rem" :src="`/weather/image/${weatherData?.icon}.png`" alt="QWeather">
             <div class="current-live__item">
               <p class="text-2xl">
-                {{ weatherData.now.tmp }}°
+                {{ weatherData.temp }}°
               </p>
-              <p>{{ weatherData.now.cond_txt }}</p>
+              <p>{{ weatherData.text }}</p>
             </div>
           </div>
-          <p>{{ weatherData.rain.txt }}</p>
+          <p class="text-center p-4">
+            {{ dailyIndex?.text }}
+          </p>
         </div>
         <div class="current-basic flex justify-around justify-center items-center mt-auto mx-4 my-4">
-          <div v-for="(item, index) in weatherData.daily_forecast" :key="index" class="flex flex-col gap-1 items-center">
+          <div v-for="(item, index) in weather3dResponse?.daily" :key="index" class="flex flex-col gap-1 items-center">
             <p class="font-bold">
               {{ StringUtils.getForecastDayText(index) }}
             </p>
-            <img width="24px" :src="`/weather/image/${item.cond_code_d}.png`" alt="">
-            <p>{{ item.tmp_min }}/{{ item.tmp_max }}°</p>
-            <p :class="{ [WidgetWeatherApi.getAQIClass(Number.parseInt(weatherData.air_forecast[index].aqi))]: true }">
-              {{ weatherData.air_forecast[index].qlty }}
-            </p>
+            <img width="24px" :src="`/weather/image/${item.iconDay}.png`" alt="">
+            <p>{{ item.tempMin }}/{{ item.tempMax }}°</p>
           </div>
         </div>
       </div>

@@ -21,7 +21,9 @@ function openSettings() {
     @click="openSettings"
   >
     <p class="p-3">
-      {{ msg }}
+      <slot>
+        {{ msg }}
+      </slot>
     </p>
   </div>
 </template>

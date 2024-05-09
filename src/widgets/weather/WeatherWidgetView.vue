@@ -1,22 +1,11 @@
 <script lang="ts" setup>
 import { LocalTwo } from '@icon-park/vue-next'
-import { computed } from 'vue'
 import { useWidget } from '@widget-js/vue3'
 import { WidgetData } from '@widget-js/core'
 import QWeatherWrapper from '@/component/QWeatherWrapper.vue'
-import { useWeatherApi } from '@/hook/useWeatherApi'
-import { WeatherUtils } from '@/utils/WeatherUtils'
-import { WidgetWeatherApi, type WidgetWeatherResponse } from '@/api/WidgetWeatherApi'
+import { useQWeatherApi } from '@/hook/useQWeatherApi'
 
-function updateFn(): Promise<WidgetWeatherResponse> {
-  return WidgetWeatherApi.get(selectLocation.value.id)
-}
-
-const { errorMsg, responseData: weatherData, selectLocation, apiKey, update } = useWeatherApi(updateFn)
-
-const backgroundClass = computed(() => {
-  return WeatherUtils.getBackgroundClass(Number.parseInt(weatherData.value?.now.cond_code ?? '100'))
-})
+const { errorMsg, weatherData, backgroundClass, selectLocation, update } = useQWeatherApi()
 
 useWidget(WidgetData, {
   onDataLoaded() {
@@ -26,18 +15,18 @@ useWidget(WidgetData, {
 </script>
 
 <template>
-  <QWeatherWrapper :check-api-key="false" :error-msg="errorMsg">
+  <QWeatherWrapper :error-msg="errorMsg">
     <div class="root theme--light" :class="{ [backgroundClass]: true }">
       <div v-if="weatherData">
         <div class="flex flex-col gap-3 p-2">
           <div class="flex items-baseline gap-1">
             <div class="text-4xl">
-              {{ weatherData.now.tmp }}
+              {{ weatherData.temp }}
             </div>
             <span>℃</span>
             <img
               style="position: absolute;right: 24px;top:24px" width="32px"
-              :src="`/weather/image/${weatherData.now.cond_code}.png`"
+              :src="`/weather/image/${weatherData.icon}.png`"
             >
           </div>
           <div class="flex gap-3">
@@ -50,31 +39,31 @@ useWidget(WidgetData, {
                 <div class="text-lg">
                   <i class="qi-2208 " />
                 </div>
-                <p>{{ weatherData.daily_forecast[0].wind_dir }}</p>
+                <p>{{ weatherData.windScale }}</p>
               </div>
             </el-tooltip>
-            <el-tooltip content="空气质量">
+            <el-tooltip content="风速">
               <div class="current-basic-item windSpeed flex flex-col items-center">
                 <div class="text-lg">
-                  <i class="qi-2202" />
+                  <i class="qi-1018" />
                 </div>
-                <p>{{ weatherData.air_now_city.qlty }}</p>
+                <p>{{ weatherData.windSpeed }}</p>
               </div>
             </el-tooltip>
-            <el-tooltip content="最低气温">
+            <el-tooltip content="风向">
               <div class="current-basic-item windScale flex flex-col items-center">
                 <div class="text-lg">
-                  <i class="qi-1056 " />
+                  <i class="qi-1702 " />
                 </div>
-                <p class="ml-1">{{ weatherData.daily_forecast[0].tmp_min }}</p>
+                <p>{{ weatherData.windDir }}</p>
               </div>
             </el-tooltip>
-            <el-tooltip content="最高气温">
+            <el-tooltip content="湿度">
               <div class="current-basic-item humidity flex flex-col items-center">
                 <div class="text-lg">
-                  <i class="qi-1009" />
+                  <i class="qi-1036" />
                 </div>
-                <p class="ml-1">{{ weatherData.daily_forecast[0].tmp_max }}</p>
+                <p>{{ weatherData.humidity }}</p>
               </div>
             </el-tooltip>
           </div>

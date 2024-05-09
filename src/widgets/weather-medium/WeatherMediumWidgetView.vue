@@ -2,14 +2,10 @@
 import { LocalTwo } from '@icon-park/vue-next'
 import { useIntervalFn } from '@vueuse/core'
 import dayjs from 'dayjs'
-import { computed } from 'vue'
 import { useWidget } from '@widget-js/vue3'
 import { WidgetData } from '@widget-js/core'
 import QWeatherWrapper from '@/component/QWeatherWrapper.vue'
-import { useWeatherApi } from '@/hook/useWeatherApi'
-import { WeatherUtils } from '@/utils/WeatherUtils'
-import { QWeatherApi, type QWeatherNowResponse } from '@/api/QWeatherApi'
-import { WidgetWeatherApi, type WidgetWeatherResponse } from '@/api/WidgetWeatherApi'
+import { useQWeatherApi } from '@/hook/useQWeatherApi'
 
 useWidget(WidgetData, {
   onDataLoaded() {
@@ -17,19 +13,7 @@ useWidget(WidgetData, {
   },
 })
 
-function updateFn(): Promise<WidgetWeatherResponse> {
-  return WidgetWeatherApi.get(selectLocation.value.id)
-}
-
-const { errorMsg, responseData, now, selectLocation, apiKey, update } = useWeatherApi(updateFn)
-
-const weatherData = computed(() => {
-  return responseData.value?.now
-})
-
-const backgroundClass = computed(() => {
-  return WeatherUtils.getBackgroundClass(Number.parseInt(weatherData.value?.cond_code ?? '100'))
-})
+const { errorMsg, weatherData, backgroundClass, now, selectLocation, update } = useQWeatherApi()
 
 useIntervalFn(() => {
   now.value = dayjs()
@@ -37,17 +21,17 @@ useIntervalFn(() => {
 </script>
 
 <template>
-  <QWeatherWrapper :check-api-key="false" :error-msg="errorMsg">
+  <QWeatherWrapper :error-msg="errorMsg">
     <div class="root" :class="{ [backgroundClass]: true }">
-      <div v-if="responseData" class="flex flex-col theme--light gap-1 justify-around" style="height: 94%" >
+      <div v-if="weatherData" class="flex flex-col theme--light gap-1 justify-around" style="height: 94%">
         <div class="flex px-2">
           <div class="flex items-center">
-            <img width="64px" :src="`/weather/image/${weatherData?.cond_code}.png`" alt="QWeather">
+            <img width="64px" :src="`/weather/image/${weatherData?.icon}.png`" alt="QWeather">
             <div class="current-live__item">
               <p class="text-2xl">
-                {{ weatherData?.tmp }}°
+                {{ weatherData?.temp }}°
               </p>
-              <p>{{ weatherData?.cond_txt }}</p>
+              <p>{{ weatherData?.text }}</p>
             </div>
           </div>
           <p class="current-time ml-auto text-right leading-6">
@@ -59,21 +43,21 @@ useIntervalFn(() => {
         <div class="current-basic flex justify-around justify-center items-center">
           <div class="flex flex-col items-center gap-1">
             <p>
-              {{responseData?.air_forecast[0].qlty}}
+              {{ weatherData.windScale }}级
             </p>
-            <p>空气质量</p>
+            <p>{{ weatherData.windDir }}</p>
+          </div>
+          <div class="flex flex-col items-center gap-1 ">
+            <p>{{ weatherData.humidity }}%</p>
+            <p>相对湿度</p>
           </div>
           <div class="flex flex-col items-center gap-1">
-            <p>{{ responseData?.daily_forecast[0].wind_dir }}</p>
-            <p>预报风向</p>
+            <p>{{ weatherData.precip }}</p>
+            <p>降水量</p>
           </div>
           <div class="flex flex-col items-center gap-1">
-            <p>{{ responseData?.daily_forecast[0].tmp_min }}℃</p>
-            <p>最低气温</p>
-          </div>
-          <div class="flex flex-col items-center gap-1">
-            <p>{{responseData?.daily_forecast[0].tmp_max}}℃</p>
-            <p>最高气温</p>
+            <p>{{ weatherData.pressure }}hPa</p>
+            <p>大气压</p>
           </div>
         </div>
       </div>
