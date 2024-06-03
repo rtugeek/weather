@@ -49,6 +49,9 @@
       "meta": {},
       "backgroundThrottling": true,
       "previewImage": "/preview_medium.png",
+      "categories": [
+        "weather"
+      ],
       "supportDeployMode": 17,
       "configPagePath": "/widget/config/small",
       "routes": []
@@ -81,6 +84,9 @@
       "meta": {},
       "backgroundThrottling": true,
       "previewImage": "/preview_large.png",
+      "categories": [
+        "weather"
+      ],
       "supportDeployMode": 17,
       "configPagePath": "/widget/config/small",
       "routes": []
@@ -113,6 +119,9 @@
       "meta": {},
       "backgroundThrottling": true,
       "previewImage": "/preview_small.png",
+      "categories": [
+        "weather"
+      ],
       "supportDeployMode": 17,
       "configPagePath": "/widget/config/small",
       "routes": []

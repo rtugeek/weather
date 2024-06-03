@@ -12,6 +12,7 @@ const WeatherLargeWidget = new Widget({
   minWidth: 4,
   maxWidth: 4,
   minHeight: 4,
+  categories: ['weather'],
   maxHeight: 4,
   previewImage: '/preview_large.png',
   path: '/widget/large',

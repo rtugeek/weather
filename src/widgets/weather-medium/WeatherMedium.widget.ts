@@ -9,6 +9,7 @@ const WeatherMediumWidget = new Widget({
   lang: 'zh-CN',
   width: 4,
   height: 2,
+  categories: ['weather'],
   resizable: false,
   previewImage: '/preview_medium.png',
   path: '/widget/medium',
