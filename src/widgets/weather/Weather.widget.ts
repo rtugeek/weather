@@ -13,7 +13,7 @@ const WeatherWidget = new Widget({
   previewImage: '/preview_small.png',
   path: '/widget/small',
   categories: ['weather'],
-  configPagePath: '/widget/config/small',
+  configPagePath: '/widget/config/small?transparent=false&frame=true',
 })
 
 export default WeatherWidget

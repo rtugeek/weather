@@ -4,14 +4,14 @@ import {
   WidgetEditDialog,
   useWidget,
 } from '@widget-js/vue3'
-import { BrowserWindowApi, WidgetData } from '@widget-js/core'
+import { BrowserWindowApi } from '@widget-js/core'
 import { ref, watch } from 'vue'
 import { useDebounceFn, useStorage } from '@vueuse/core'
 import consola from 'consola'
 import { DEFAULT_LOCATION, GeoApi, type GeoLocation } from '@/api/GeoApi'
 
 const loading = ref(false)
-const { widgetData, widgetParams, save } = useWidget(WidgetData)
+const { widgetParams, save } = useWidget()
 
 const locationId = useStorage('locationId', DEFAULT_LOCATION.id)
 const apiKey = useStorage('apiKey', '')
@@ -60,7 +60,6 @@ function viewQWeather() {
 
 <template>
   <WidgetEditDialog
-    v-model="widgetData"
     :widget-params="widgetParams"
     :option="widgetConfigOption"
     @apply="save()"

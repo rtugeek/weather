@@ -1,5 +1,5 @@
-import { useIntervalFn, useStorage } from '@vueuse/core'
-import { computed, ref } from 'vue'
+import { useDebounceFn, useIntervalFn, useStorage } from '@vueuse/core'
+import { computed, ref, watch } from 'vue'
 import dayjs from 'dayjs'
 import { DEFAULT_LOCATION, type GeoLocation } from '@/api/GeoApi'
 import { WeatherUtils } from '@/utils/WeatherUtils'
@@ -27,6 +27,35 @@ export function useQWeatherApi(option?: { useIndex?: boolean, useAir?: boolean, 
     return responseData.value?.now
   })
 
+  const update = () => {
+    errorMsg.value = ''
+    loading.value = true
+    if (option?.useIndex) {
+      updateIndex()
+    }
+    if (option?.useAir) {
+      updateAir5d()
+    }
+    if (option?.useWeather3d) {
+      updateWeather3d()
+    }
+    QWeatherApi.weatherNow(selectLocation.value.id, apiKey.value).then((res) => {
+      responseData.value = res
+    }).catch((e) => {
+      errorMsg.value = e.message
+    }).finally(() => loading.value = false)
+  }
+
+  const debounceUpdate = useDebounceFn(update, 1000)
+
+  watch(apiKey, () => {
+    debounceUpdate()
+  })
+
+  watch(selectLocation, () => {
+    debounceUpdate()
+  })
+
   const backgroundClass = computed(() => {
     return WeatherUtils.getBackgroundClass(Number.parseInt(weatherData.value?.icon ?? '100'))
   })
@@ -51,27 +80,9 @@ export function useQWeatherApi(option?: { useIndex?: boolean, useAir?: boolean, 
     })
   }
 
-  const update = () => {
-    errorMsg.value = ''
-    loading.value = true
-    if (option?.useIndex) {
-      updateIndex()
-    }
-    if (option?.useAir) {
-      updateAir5d()
-    }
-    if (option?.useWeather3d) {
-      updateWeather3d()
-    }
-    QWeatherApi.weatherNow(selectLocation.value.id, apiKey.value).then((res) => {
-      responseData.value = res
-    }).catch((e) => {
-      errorMsg.value = e.message
-    }).finally(() => loading.value = false)
-  }
   useIntervalFn(() => {
     update()
-  }, 60 * 60 * 1000)
+  }, 60 * 60 * 1000, { immediate: true, immediateCallback: true })
 
   return {
     locationId,

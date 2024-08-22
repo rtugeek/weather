@@ -13,7 +13,7 @@ const WeatherMediumWidget = new Widget({
   resizable: false,
   previewImage: '/preview_medium.png',
   path: '/widget/medium',
-  configPagePath: '/widget/config/small',
+  configPagePath: '/widget/config/small?transparent=false&frame=true',
 })
 
 export default WeatherMediumWidget
