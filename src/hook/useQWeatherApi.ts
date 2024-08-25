@@ -1,5 +1,5 @@
-import { useIntervalFn, useStorage } from '@vueuse/core'
-import { computed, ref } from 'vue'
+import { useDebounceFn, useIntervalFn, useStorage } from '@vueuse/core'
+import { computed, ref, watch } from 'vue'
 import dayjs from 'dayjs'
 import { DEFAULT_LOCATION, type GeoLocation } from '@/api/GeoApi'
 import { WeatherUtils } from '@/utils/WeatherUtils'
@@ -83,9 +83,20 @@ export function useQWeatherApi(option?: { useIndex?: boolean, useAir?: boolean, 
       errorMsg.value = e.message
     }).finally(() => loading.value = false)
   }
+
+  const debounceUpdate = useDebounceFn(update, 1000)
+
+  watch(apiKey, () => {
+    debounceUpdate()
+  })
+
+  watch(selectLocation, () => {
+    debounceUpdate()
+  })
+
   useIntervalFn(() => {
     update()
-  }, 60 * 60 * 1000)
+  }, 60 * 60 * 1000, { immediate: true, immediateCallback: true })
 
   return {
     locationId,

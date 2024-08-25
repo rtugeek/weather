@@ -3,15 +3,10 @@ import { LocalTwo } from '@icon-park/vue-next'
 import { useIntervalFn } from '@vueuse/core'
 import dayjs from 'dayjs'
 import { useWidget } from '@widget-js/vue3'
-import { WidgetData } from '@widget-js/core'
 import QWeatherWrapper from '@/component/QWeatherWrapper.vue'
 import { useQWeatherApi } from '@/hook/useQWeatherApi'
 
-useWidget(WidgetData, {
-  onDataLoaded() {
-    update()
-  },
-})
+useWidget()
 
 const { errorMsg, weatherData, backgroundClass, now, selectLocation, update, temperature } = useQWeatherApi()
 

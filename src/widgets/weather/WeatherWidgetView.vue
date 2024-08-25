@@ -1,17 +1,12 @@
 <script lang="ts" setup>
 import { LocalTwo } from '@icon-park/vue-next'
 import { useWidget } from '@widget-js/vue3'
-import { WidgetData } from '@widget-js/core'
 import QWeatherWrapper from '@/component/QWeatherWrapper.vue'
 import { useQWeatherApi } from '@/hook/useQWeatherApi'
 
 const { errorMsg, weatherData, backgroundClass, selectLocation, update, unitText, temperature } = useQWeatherApi()
 
-useWidget(WidgetData, {
-  onDataLoaded() {
-    update()
-  },
-})
+useWidget()
 </script>
 
 <template>

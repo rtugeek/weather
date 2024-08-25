@@ -4,7 +4,7 @@ import WeatherWidgetDefine from './Weather.widget'
 const path = WeatherWidgetDefine.path
 const name = WeatherWidgetDefine.name
 
-const configPagePath = WeatherWidgetDefine.configPagePath!
+const configPagePath = WeatherWidgetDefine.configPagePath!.split('?')[0]
 
 const WeatherWidgetRoutes: RouteRecordRaw[] = [
   {
