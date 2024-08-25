@@ -8,7 +8,7 @@ import { StringUtils } from '../../utils/StringUtils'
 import { useQWeatherApi } from '@/hook/useQWeatherApi'
 import QWeatherWrapper from '@/component/QWeatherWrapper.vue'
 
-const { errorMsg, weatherData, backgroundClass, now, selectLocation, dailyIndex, update, weather3dResponse } = useQWeatherApi({ useIndex: true, useWeather3d: true })
+const { errorMsg, weatherData, backgroundClass, now, selectLocation, dailyIndex, update, weather3dResponse, temperature, unitText } = useQWeatherApi({ useIndex: true, useWeather3d: true })
 
 useWidget(WidgetData, {
   onDataLoaded() {
@@ -40,7 +40,7 @@ useIntervalFn(() => {
             <img width="70rem" :src="`/weather/image/${weatherData?.icon}.png`" alt="QWeather">
             <div class="current-live__item">
               <p class="text-2xl">
-                {{ weatherData.temp }}°
+                {{ temperature }}°
               </p>
               <p>{{ weatherData.text }}</p>
             </div>

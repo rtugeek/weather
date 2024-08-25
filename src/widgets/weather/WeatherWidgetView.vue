@@ -5,7 +5,7 @@ import { WidgetData } from '@widget-js/core'
 import QWeatherWrapper from '@/component/QWeatherWrapper.vue'
 import { useQWeatherApi } from '@/hook/useQWeatherApi'
 
-const { errorMsg, weatherData, backgroundClass, selectLocation, update } = useQWeatherApi()
+const { errorMsg, weatherData, backgroundClass, selectLocation, update, unitText, temperature } = useQWeatherApi()
 
 useWidget(WidgetData, {
   onDataLoaded() {
@@ -21,9 +21,9 @@ useWidget(WidgetData, {
         <div class="flex flex-col gap-3 p-2">
           <div class="flex items-baseline gap-1">
             <div class="text-4xl">
-              {{ weatherData.temp }}
+              {{ temperature }}
             </div>
-            <span>℃</span>
+            <span>{{ unitText }}</span>
             <img
               style="position: absolute;right: 24px;top:24px" width="32px"
               :src="`/weather/image/${weatherData.icon}.png`"

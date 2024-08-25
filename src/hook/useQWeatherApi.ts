@@ -22,9 +22,23 @@ export function useQWeatherApi(option?: { useIndex?: boolean, useAir?: boolean, 
   const dailyIndex = ref<DailyIndex>()
   const air5dResponse = ref<QWeatherAir5dResponse>()
   const weather3dResponse = ref<QWeatherDailyResponse>()
-
+  const selectedUnit = useStorage('selectedUnit', 'C')
+  const unitText = computed(() => {
+    return selectedUnit.value == 'C' ? '°C' : '°F'
+  })
   const weatherData = computed(() => {
     return responseData.value?.now
+  })
+
+  const temperature = computed(() => {
+    if (!responseData.value) {
+      return 0
+    }
+    if (selectedUnit.value == 'F') {
+      const cTemp = Number(responseData.value.now.temp)
+      return (cTemp * 9 / 5) + 32
+    }
+    return responseData.value?.now.temp
   })
 
   const backgroundClass = computed(() => {
@@ -80,8 +94,10 @@ export function useQWeatherApi(option?: { useIndex?: boolean, useAir?: boolean, 
     air5dResponse,
     backgroundClass,
     now,
+    temperature,
     weatherData,
     dailyIndex,
+    unitText,
     loading,
     weather3dResponse,
     update,
