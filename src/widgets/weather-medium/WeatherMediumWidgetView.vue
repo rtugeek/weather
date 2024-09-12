@@ -8,7 +8,7 @@ import { useQWeatherApi } from '@/hook/useQWeatherApi'
 
 useWidget()
 
-const { errorMsg, weatherData, backgroundClass, now, selectLocation } = useQWeatherApi()
+const { errorMsg, weatherData, backgroundClass, now, selectLocation, update, temperature } = useQWeatherApi()
 
 useIntervalFn(() => {
   now.value = dayjs()
@@ -24,7 +24,7 @@ useIntervalFn(() => {
             <img width="64px" :src="`/weather/image/${weatherData?.icon}.png`" alt="QWeather">
             <div class="current-live__item">
               <p class="text-2xl">
-                {{ weatherData?.temp }}°
+                {{ temperature }}°
               </p>
               <p>{{ weatherData?.text }}</p>
             </div>

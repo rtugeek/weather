@@ -22,10 +22,48 @@ export function useQWeatherApi(option?: { useIndex?: boolean, useAir?: boolean, 
   const dailyIndex = ref<DailyIndex>()
   const air5dResponse = ref<QWeatherAir5dResponse>()
   const weather3dResponse = ref<QWeatherDailyResponse>()
-
+  const selectedUnit = useStorage('selectedUnit', 'C')
+  const unitText = computed(() => {
+    return selectedUnit.value == 'C' ? '°C' : '°F'
+  })
   const weatherData = computed(() => {
     return responseData.value?.now
   })
+
+  const temperature = computed(() => {
+    if (!responseData.value) {
+      return 0
+    }
+    if (selectedUnit.value == 'F') {
+      const cTemp = Number(responseData.value.now.temp)
+      return (cTemp * 9 / 5) + 32
+    }
+    return responseData.value?.now.temp
+  })
+
+  const backgroundClass = computed(() => {
+    return WeatherUtils.getBackgroundClass(Number.parseInt(weatherData.value?.icon ?? '100'))
+  })
+
+  const updateIndex = () => {
+    QWeatherApi.indices(selectLocation.value.id, apiKey.value).then((res) => {
+      // 从res.daily中随机取一个
+      dailyIndex.value = res.daily[Math.floor(Math.random() * res.daily.length)]
+    })
+  }
+
+  const updateWeather3d = () => {
+    QWeatherApi.weather3d(selectLocation.value.id, apiKey.value).then((res) => {
+      weather3dResponse.value = res
+    })
+  }
+
+  const updateAir5d = () => {
+    QWeatherApi.indices(selectLocation.value.id, apiKey.value).then((res) => {
+      // 从res.daily中随机取一个
+      dailyIndex.value = res.daily[Math.floor(Math.random() * res.daily.length)]
+    })
+  }
 
   const update = () => {
     errorMsg.value = ''
@@ -56,30 +94,6 @@ export function useQWeatherApi(option?: { useIndex?: boolean, useAir?: boolean, 
     debounceUpdate()
   })
 
-  const backgroundClass = computed(() => {
-    return WeatherUtils.getBackgroundClass(Number.parseInt(weatherData.value?.icon ?? '100'))
-  })
-
-  const updateIndex = () => {
-    QWeatherApi.indices(selectLocation.value.id, apiKey.value).then((res) => {
-      // 从res.daily中随机取一个
-      dailyIndex.value = res.daily[Math.floor(Math.random() * res.daily.length)]
-    })
-  }
-
-  const updateWeather3d = () => {
-    QWeatherApi.weather3d(selectLocation.value.id, apiKey.value).then((res) => {
-      weather3dResponse.value = res
-    })
-  }
-
-  const updateAir5d = () => {
-    QWeatherApi.indices(selectLocation.value.id, apiKey.value).then((res) => {
-      // 从res.daily中随机取一个
-      dailyIndex.value = res.daily[Math.floor(Math.random() * res.daily.length)]
-    })
-  }
-
   useIntervalFn(() => {
     update()
   }, 60 * 60 * 1000, { immediate: true, immediateCallback: true })
@@ -91,8 +105,10 @@ export function useQWeatherApi(option?: { useIndex?: boolean, useAir?: boolean, 
     air5dResponse,
     backgroundClass,
     now,
+    temperature,
     weatherData,
     dailyIndex,
+    unitText,
     loading,
     weather3dResponse,
     update,
