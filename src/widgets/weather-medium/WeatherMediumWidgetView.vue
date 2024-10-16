@@ -8,7 +8,7 @@ import { useQWeatherApi } from '@/hook/useQWeatherApi'
 
 useWidget()
 
-const { errorMsg, weatherData, backgroundClass, now, selectLocation, update, temperature } = useQWeatherApi()
+const { errorMsg, weatherData, backgroundClass, now, selectLocation, temperature } = useQWeatherApi()
 
 useIntervalFn(() => {
   now.value = dayjs()
@@ -65,7 +65,6 @@ html{
   font-size: var(--widget-font-size);
 }
 .root {
-  color: var(--text-black-1);
   border-radius: var(--widget-border-radius);
 }
 
@@ -76,10 +75,10 @@ html{
   padding: 0 4px;
   font-weight: bold;
   border-radius: 12px;
-  background-color: var(--city-weather-current-background-color);
+  background-color: rgba(255, 255, 255, 0.2);
   div>p:last-child{
     font-weight: normal;
-    color: var(--text-black-2);
+    opacity: 0.5;
   }
 }
 </style>

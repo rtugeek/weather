@@ -1,6 +1,7 @@
 import { useDebounceFn, useIntervalFn, useStorage } from '@vueuse/core'
 import { computed, ref, watch } from 'vue'
 import dayjs from 'dayjs'
+import { useWidgetTheme } from '@widget-js/vue3'
 import { DEFAULT_LOCATION, type GeoLocation } from '@/api/GeoApi'
 import { WeatherUtils } from '@/utils/WeatherUtils'
 import {
@@ -22,6 +23,7 @@ export function useQWeatherApi(option?: { useIndex?: boolean, useAir?: boolean, 
   const dailyIndex = ref<DailyIndex>()
   const air5dResponse = ref<QWeatherAir5dResponse>()
   const weather3dResponse = ref<QWeatherDailyResponse>()
+  const widgetTheme = useWidgetTheme()
   const selectedUnit = useStorage('selectedUnit', 'C')
   const unitText = computed(() => {
     return selectedUnit.value == 'C' ? '°C' : '°F'
@@ -42,7 +44,12 @@ export function useQWeatherApi(option?: { useIndex?: boolean, useAir?: boolean, 
   })
 
   const backgroundClass = computed(() => {
-    return WeatherUtils.getBackgroundClass(Number.parseInt(weatherData.value?.icon ?? '100'))
+    if (widgetTheme.widgetTheme.value.useGlobalTheme) {
+      return 'widget-default'
+    }
+    else {
+      return WeatherUtils.getBackgroundClass(Number.parseInt(weatherData.value?.icon ?? '100'))
+    }
   })
 
   const updateIndex = () => {

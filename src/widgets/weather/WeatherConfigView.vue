@@ -24,7 +24,6 @@ const widgetConfigOption = new WidgetConfigOption({
   custom: true,
   theme: {
     borderRadius: true,
-    fontSize: [10, 30],
   },
 })
 
@@ -70,8 +69,8 @@ function viewQWeather() {
       <el-form label-width="70">
         <el-form-item label="温度单位">
           <el-radio-group v-model="selectedUnit">
-            <el-radio label="摄氏温度" value="C"/>
-            <el-radio label="华氏温度" value="F"/>
+            <el-radio label="摄氏温度" value="C" />
+            <el-radio label="华氏温度" value="F" />
           </el-radio-group>
         </el-form-item>
         <el-form-item label="地址">

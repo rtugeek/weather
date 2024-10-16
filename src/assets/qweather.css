@@ -1,40 +1,4 @@
-.zy-container {
-    border-radius: 16px;
-    transition: .3s;
-    text-align: center;
-    background-color: var(--card-background-color);
-    position: relative;
-    padding: 0 20px;
-}
 
-.zy-container > ins {
-    width: 100% !important;
-    display: flex !important;
-    display: -ms-flexbox !important;
-    align-items: center !important;
-    -ms-flex-align: center !important;
-    justify-content: center !important;
-    -ms-flex-pack: center !important;
-    padding: 20px 0;
-    box-sizing: content-box;
-    overflow: hidden;
-    margin-bottom: 20px;
-}
-
-.zy-container > ins.adsbygoogle[data-ad-status="unfilled"] {
-    display: none !important;
-}
-
-.zy-container > div {
-    padding: 20px 0;
-    box-sizing: content-box;
-    margin: 0 auto 20px;
-}
-
-.zy-container iframe {
-    margin: 0 auto;
-    max-width: 100%;
-}
 
 @media (max-width: 739px) {
     .zy-container {

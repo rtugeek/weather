@@ -1,1 +1,0 @@
-html{font-size:var(--widget-font-size)}.root{color:var(--text-black-1);border-radius:var(--widget-border-radius)}.current-basic{height:4rem;font-size:.8rem;margin:0 12px;padding:0 4px;font-weight:700;border-radius:12px;background-color:var(--city-weather-current-background-color)}.current-basic div>p:last-child{font-weight:400;color:var(--text-black-2)}

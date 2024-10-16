@@ -7,7 +7,7 @@ import { StringUtils } from '../../utils/StringUtils'
 import { useQWeatherApi } from '@/hook/useQWeatherApi'
 import QWeatherWrapper from '@/component/QWeatherWrapper.vue'
 
-const { errorMsg, weatherData, backgroundClass, now, selectLocation, dailyIndex, update, weather3dResponse, temperature, unitText } = useQWeatherApi({ useIndex: true, useWeather3d: true })
+const { errorMsg, weatherData, backgroundClass, now, selectLocation, dailyIndex, weather3dResponse, temperature } = useQWeatherApi({ useIndex: true, useWeather3d: true })
 
 useWidget()
 useIntervalFn(() => {
@@ -60,7 +60,6 @@ useIntervalFn(() => {
 <style scoped lang="scss">
 .root {
   font-size: var(--widget-font-size);
-  color: var(--text-black-1);
   border-radius: var(--widget-border-radius);
 }
 

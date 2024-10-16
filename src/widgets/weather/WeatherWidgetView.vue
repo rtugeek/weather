@@ -4,7 +4,7 @@ import { useWidget } from '@widget-js/vue3'
 import QWeatherWrapper from '@/component/QWeatherWrapper.vue'
 import { useQWeatherApi } from '@/hook/useQWeatherApi'
 
-const { errorMsg, weatherData, backgroundClass, selectLocation, update, unitText, temperature } = useQWeatherApi()
+const { errorMsg, weatherData, backgroundClass, selectLocation, unitText, temperature } = useQWeatherApi()
 
 useWidget()
 </script>
@@ -71,7 +71,6 @@ useWidget()
 <style scoped lang="scss">
 .root {
   font-size: var(--widget-font-size);
-  color: var(--text-black-1);
   border-radius: var(--widget-border-radius);
   overflow: hidden;
 }

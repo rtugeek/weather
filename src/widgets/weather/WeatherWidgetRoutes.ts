@@ -1,10 +1,10 @@
 import type { RouteRecordRaw } from 'vue-router'
-import WeatherWidgetDefine from './Weather.widget'
+import WeatherWidget from './Weather.widget'
 
-const path = WeatherWidgetDefine.path
-const name = WeatherWidgetDefine.name
+const path = WeatherWidget.path
+const name = WeatherWidget.name
 
-const configPagePath = WeatherWidgetDefine.configPagePath!.split('?')[0]
+const configPagePath = WeatherWidget.configPagePath!.split('?')[0]
 
 const WeatherWidgetRoutes: RouteRecordRaw[] = [
   {

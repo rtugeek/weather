@@ -254,3 +254,9 @@ body {
     --contact-content-item-background-color: #2D2E32;
     --support-main-cont-table-thead-background-color: rgba(233, 236, 239, 1);
 }
+
+
+.widget-default{
+    background-color: var(--widget-background-color);
+    color: var(--widget-color);
+}

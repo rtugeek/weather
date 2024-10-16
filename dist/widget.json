@@ -1,6 +1,6 @@
 {
   "name": "cn.widgetjs.widget.weather",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "author": "Neo Fu",
   "homepage": "",
   "title": {
@@ -53,7 +53,7 @@
         "weather"
       ],
       "supportDeployMode": 17,
-      "configPagePath": "/widget/config/small",
+      "configPagePath": "/widget/config/small?transparent=false&frame=true",
       "routes": []
     },
     {
@@ -88,7 +88,7 @@
         "weather"
       ],
       "supportDeployMode": 17,
-      "configPagePath": "/widget/config/small",
+      "configPagePath": "/widget/config/small?transparent=false&frame=true",
       "routes": []
     },
     {
@@ -123,7 +123,7 @@
         "weather"
       ],
       "supportDeployMode": 17,
-      "configPagePath": "/widget/config/small",
+      "configPagePath": "/widget/config/small?transparent=false&frame=true",
       "routes": []
     }
   ],
