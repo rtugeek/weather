@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useStorage } from '@vueuse/core'
 import { BrowserWindowApi } from '@widget-js/core'
+import { computed } from 'vue'
 import EmptyView from '@/component/EmptyView.vue'
 
 defineProps({
@@ -19,6 +20,7 @@ defineProps({
   },
 })
 const apiKey = useStorage('apiKey', '')
+const apiHost = useStorage('apiHost', '')
 function viewTutorial() {
   BrowserWindowApi.openUrl('https://www.bilibili.com/video/BV1XQ4y1v7wS/?share_source=copy_web&vd_source=d97a783ed15a74f48591bd6098a158a4&t=39', { external: true })
 }
@@ -26,14 +28,26 @@ function viewTutorial() {
 function viewQWeather() {
   BrowserWindowApi.openUrl('https://console.qweather.com/#/console', { external: true })
 }
+const msg = computed(() => {
+  if (!apiKey.value && !apiHost.value) {
+    return '请设置 和风天气 API KEY/API HOST'
+  }
+  else if (!apiKey.value) {
+    return '请设置 和风天气 API KEY'
+  }
+  else if (!apiHost.value) {
+    return '请设置 和风天气 API HOST'
+  }
+  return ''
+})
 </script>
 
 <template>
   <widget-wrapper>
-    <template v-if="checkApiKey && !apiKey">
+    <template v-if="checkApiKey && (!apiKey || !apiHost)">
       <EmptyView>
         <div class="flex flex-col gap-4 items-center">
-          <span>点击设置 和风天气 API KEY</span>
+          <span>{{ msg }}</span>
           <div class="flex flex-wrap gap-1 items-center justify-center">
             <el-button class="w-20" type="primary" @click.stop="viewTutorial">
               视频教程

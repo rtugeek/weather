@@ -15,6 +15,7 @@ const { widgetParams, save } = useWidget()
 
 const locationId = useStorage('locationId', DEFAULT_LOCATION.id)
 const apiKey = useStorage('apiKey', '')
+const apiHost = useStorage('apiHost', '')
 const selectLocation = useStorage<GeoLocation>('selectLocation', DEFAULT_LOCATION)
 const locations = ref<GeoLocation[]>([selectLocation.value])
 const selectedUnit = useStorage('selectedUnit', 'C')
@@ -32,7 +33,7 @@ const searchLocation = useDebounceFn((keyword: string) => {
     return
   }
   loading.value = true
-  const key = apiKey.value ? apiKey.value : '8710b314b17841dfad4ec089881eb380'
+  const key = apiKey.value
   GeoApi.lookup(keyword, key).then((res) => {
     if (res.code == '200') {
       locations.value = res.location
@@ -56,6 +57,10 @@ function viewTutorial() {
 function viewQWeather() {
   BrowserWindowApi.openUrl('https://console.qweather.com/#/console', { external: true })
 }
+
+function viewApiHost() {
+  BrowserWindowApi.openUrl('https://console.qweather.com/setting?lang=zh', { external: true })
+}
 </script>
 
 <template>
@@ -66,12 +71,39 @@ function viewQWeather() {
     @confirm="save({ closeWindow: true })"
   >
     <template #custom>
-      <el-form label-width="70">
+      <el-form label-width="90">
         <el-form-item label="温度单位">
           <el-radio-group v-model="selectedUnit">
             <el-radio label="摄氏温度" value="C" />
             <el-radio label="华氏温度" value="F" />
           </el-radio-group>
+        </el-form-item>
+        <el-form-item label="API KEY">
+          <el-input
+            v-model="apiKey"
+            clearable
+            placeholder="和风天气API KEY"
+            style="width: 240px"
+          />
+          <el-button class="ml-2" type="primary" @click="viewTutorial">
+            视频教程
+          </el-button>
+          <el-button type="warning" @click="viewQWeather">
+            申请地址
+          </el-button>
+        </el-form-item>
+        <el-form-item label="API HOST">
+          <div class="flex gap-2">
+            <el-input
+              v-model="apiHost"
+              clearable
+              placeholder="和风天气API HOST"
+              style="width: 240px"
+            />
+            <el-button type="warning" @click="viewApiHost">
+              查看
+            </el-button>
+          </div>
         </el-form-item>
         <el-form-item label="地址">
           <el-select
@@ -92,20 +124,6 @@ function viewQWeather() {
               :value="item.id"
             />
           </el-select>
-        </el-form-item>
-        <el-form-item label="API KEY">
-          <el-input
-            v-model="apiKey"
-            clearable
-            placeholder="和风天气API KEY"
-            style="width: 240px"
-          />
-          <el-button class="ml-2" type="primary" @click="viewTutorial">
-            视频教程
-          </el-button>
-          <el-button type="warning" @click="viewQWeather">
-            申请地址
-          </el-button>
         </el-form-item>
       </el-form>
     </template>

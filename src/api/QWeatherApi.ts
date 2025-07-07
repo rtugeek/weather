@@ -1,5 +1,6 @@
 import { QWeatherAxios, type QWeatherResponse } from '@/api/QWeatherCommon'
 import { LANGUAGE_CODE } from '@/utils/LanguageUtils'
+import { useApiHost } from '@/hook/useApiHost'
 
 export class QWeatherApi {
   /**
@@ -11,7 +12,8 @@ export class QWeatherApi {
    */
   static async weatherNow(location: string, key: string, lang = LANGUAGE_CODE): Promise<QWeatherNowResponse> {
     // https://weatheroffer.com/api/weather/city?location=118.0673%2C24.4793&lang=en
-    const result = await QWeatherAxios.get(`https://devapi.qweather.com/v7/weather/now?location=${location}&key=${key}&lang=${lang}`)
+    const host = useApiHost().value
+    const result = await QWeatherAxios.get(`${host}/v7/weather/now?location=${location}&key=${key}&lang=${lang}`)
     return result as unknown as QWeatherNowResponse
   }
 
@@ -24,7 +26,8 @@ export class QWeatherApi {
    * @see https://dev.qweather.com/docs/api/indices/indices-forecast/
    */
   static async indices(location: string, key: string, days: 1 | 3 = 1, lang = LANGUAGE_CODE): Promise<QWeatherIndicesResponse> {
-    const result = await QWeatherAxios.get(`https://devapi.qweather.com/v7/indices/${days}d?type=0&location=${location}&key=${key}&lang=${lang}`)
+    const host = useApiHost().value
+    const result = await QWeatherAxios.get(`${host}/v7/indices/${days}d?type=0&location=${location}&key=${key}&lang=${lang}`)
     return result as unknown as QWeatherIndicesResponse
   }
 
@@ -36,7 +39,8 @@ export class QWeatherApi {
    * @see   https://dev.qweather.com/docs/api/weather/weather-daily-forecast/
    */
   static async weather3d(location: string, key: string, lang = LANGUAGE_CODE): Promise<QWeatherDailyResponse> {
-    const result = await QWeatherAxios.get(`https://devapi.qweather.com/v7/weather/3d?location=${location}&key=${key}&lang=${lang}`)
+    const host = useApiHost().value
+    const result = await QWeatherAxios.get(`${host}/v7/weather/3d?location=${location}&key=${key}&lang=${lang}`)
     return result as unknown as QWeatherDailyResponse
   }
 
@@ -48,7 +52,8 @@ export class QWeatherApi {
    * @see https://dev.qweather.com/docs/api/air/air-daily-forecast/
    */
   static async air5d(location: string, key: string, lang = LANGUAGE_CODE): Promise<QWeatherAir5dResponse> {
-    const result = await QWeatherAxios.get(`https://devapi.qweather.com/v7/air/5d?location=${location}&key=${key}&lang=${lang}`)
+    const host = useApiHost().value
+    const result = await QWeatherAxios.get(`${host}/v7/air/5d?location=${location}&key=${key}&lang=${lang}`)
     return result as unknown as QWeatherAir5dResponse
   }
 }

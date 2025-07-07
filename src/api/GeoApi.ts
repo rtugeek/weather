@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { LANGUAGE_CODE } from '@/utils/LanguageUtils'
 import type { QWeatherResponse } from '@/api/QWeatherCommon'
+import { useApiHost } from '@/hook/useApiHost'
 
 export class GeoApi {
   /**
@@ -10,7 +11,8 @@ export class GeoApi {
    * @see   https://dev.qweather.com/docs/api/geoapi/city-lookup/
    */
   static async lookup(location: string, key: string, lang = LANGUAGE_CODE): Promise<QWeatherGeoLookupResponse> {
-    const result = await axios.get(`https://geoapi.qweather.com/v2/city/lookup?location=${location}&key=${key}&lang=${lang}`)
+    const host = useApiHost().value
+    const result = await axios.get(`${host}/geo/v2/city/lookup?location=${location}&key=${key}&lang=${lang}`)
     return result.data
   }
 }
