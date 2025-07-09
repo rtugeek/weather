@@ -11,7 +11,7 @@ useWidget()
 
 <template>
   <QWeatherWrapper :error-msg="errorMsg">
-    <div class="root theme--light" :class="{ [backgroundClass]: true }">
+    <div class="root h-full theme--light" :class="{ [backgroundClass]: true }">
       <div v-if="weatherData">
         <div class="flex flex-col gap-3 p-2">
           <div class="flex items-baseline gap-1">

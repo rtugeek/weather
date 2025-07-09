@@ -17,7 +17,7 @@ useIntervalFn(() => {
 
 <template>
   <QWeatherWrapper :error-msg="errorMsg">
-    <div v-if="weatherData" class="root theme--light" :class="{ [backgroundClass]: true }">
+    <div v-if="weatherData" class="root h-full theme--light" :class="{ [backgroundClass]: true }">
       <div class="flex flex-col weather-bg relative h-full ">
         <div class="flex px-2 py-1 items-center">
           <p>
